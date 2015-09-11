@@ -196,6 +196,13 @@ function loadTimeline(json) {
 			return;
 		}
 
+		// Reset the height of the chart
+		height = 35 * data.length;
+		y.rangeRoundBands([0, height]);
+		svg.attr('height', h)
+		d3.select('g.x.axis')
+			.attr('transform', 'translate(0,' + height + ')')
+
 		var firstBD = d3.min(data, function (d) {
 			return new Date(d.bDate);
 		});
