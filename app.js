@@ -88,13 +88,33 @@ app.post('/in', function (req, res) {
 						res.send(user);
 					}
 				})
-
 			})
 		});
 	}
 });
 
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
 var port = normalizePort(process.env.PORT || '8888');
+console.log(port);
 app.set('port', port);
 
 app.listen(port);
