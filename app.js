@@ -94,4 +94,7 @@ app.post('/in', function (req, res) {
 	}
 });
 
-app.listen(80);
+var port = normalizePort(process.env.PORT || '8888');
+app.set('port', port);
+
+app.listen(port);
