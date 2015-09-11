@@ -118,6 +118,8 @@ function shortRel(aNum) {
 // Transforms the persons object from the FS API to an array
 // with additional properties
 function ancArray(ancestors) {
+	console.log(ancestors);
+	debugger;
 	var personsArray = [];
 	var persons = ancestors.getPersons();
 
@@ -227,8 +229,16 @@ function ancArray(ancestors) {
 		personsArray.push(newPerson);
 	}
 
-	// console.log(JSON.stringify(personsArray, null, 4));
-	return personsArray;
+	return personsArray.sort(function(a, b){
+		if (a.ascendancyNumber && b.ascendancyNumber) {
+			return a.ascendancyNumber - b.ascendancyNumber;
+		}
+		if (a.ascendancyNumber) {
+			return a.ascendancyNumber;
+		}else {
+			return b.ascendancyNumber;
+		}
+	});
 
 }
 

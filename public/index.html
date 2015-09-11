@@ -10,7 +10,8 @@
 
 <body ng-app="app" ng-controller="mainContrl">
 
-    <button type="button" class="btn btn-primary" ng-click="login()" ng-hide="ancestors" name="login">Login</button>
+    <button type="button" class="btn btn-primary" ng-click="login()" ng-hide="loggedin" name="login">Login</button>
+    <button type="button" class="btn btn-info" ng-click="logout()" ng-show="loggedin" name="logout">Logout</button>
     <div class="chart"></div>
 
     <script src="js/fs-sdk.js" charset="utf-8"></script>

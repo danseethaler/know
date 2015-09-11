@@ -57,77 +57,57 @@ function loadTimeline(json) {
 		.append('ul')
 		.classed('pagination controls', true)
 
-	var pag1 = pagin.append('li')
-		.append('a')
-		.html('1')
-		.style('cursor', 'pointer')
-		.on('click', function () {
-			data = allData.filter(function (elem) {
-				return elem.genNum === 1;
-			});
-			plot.call(chart, {
-				data: data,
-				axis: {
-					x: xAxis,
-					y: yAxis
-				},
-				init: false
-			})
-		})
 
-	var pag2 = pagin.append('li')
-		.append('a')
-		.html('2')
-		.style('cursor', 'pointer')
-		.on('click', function () {
-			data = allData.filter(function (elem) {
-				return elem.genNum === 2;
-			});
-			plot.call(chart, {
-				data: data,
-				axis: {
-					x: xAxis,
-					y: yAxis
-				},
-				init: false
-			})
-		})
 
-	var pag3 = pagin.append('li')
-		.append('a')
-		.html('3')
-		.style('cursor', 'pointer')
-		.on('click', function () {
-			data = allData.filter(function (elem) {
-				return elem.genNum === 3;
-			});
-			plot.call(chart, {
-				data: data,
-				axis: {
-					x: xAxis,
-					y: yAxis
-				},
-				init: false
+	if (length > 0) {
+		var pag1 = pagin.append('li')
+			.append('a')
+			.html('1')
+			.style('cursor', 'pointer')
+			.on('click', function () {
+				data = allData.filter(function (elem) {
+					return elem.genNum === 1;
+				});
+				plot.call(chart, {
+					data: data,
+					axis: {
+						x: xAxis,
+						y: yAxis
+					},
+					init: false
+				})
 			})
-		})
+	}
 
-	var pag3 = pagin.append('li')
-		.append('a')
-		.html('4')
-		.style('cursor', 'pointer')
-		.on('click', function () {
-			data = allData.filter(function (elem) {
-				return elem.genNum === 4;
-			});
-			plot.call(chart, {
-				data: data,
-				axis: {
-					x: xAxis,
-					y: yAxis
-				},
-				init: false
-			})
-		})
+	// Create the pagination elements
+	for (var i = 1; i <= 6; i++) {
+		// Check to see if this generation has any data
+		if (allData.filter(function (elem) {
+				return elem.genNum === i;
+			}).length > 0) {
+			// If there is data then create a li tag with
+			// the gen number and add an on-click event
+			(function (int) {
+				pagin.append('li')
+					.append('a')
+					.html(int)
+					.style('cursor', 'pointer')
+					.on('click', function () {
+						data = allData.filter(function (elem) {
+							return elem.genNum === int;
+						});
+						plot.call(chart, {
+							data: data,
+							axis: {
+								x: xAxis,
+								y: yAxis
+							},
+							init: false
+						})
+					});
+			}(i))
+		}
+	}
 
 	var svg = d3.select('.chart')
 		.append('svg')
@@ -199,7 +179,7 @@ function loadTimeline(json) {
 		// Reset the height of the chart
 		height = 35 * data.length;
 		y.rangeRoundBands([0, height]);
-		svg.attr('height', h)
+		svg.attr('height', height + margin.top + margin.bottom)
 		d3.select('g.x.axis')
 			.attr('transform', 'translate(0,' + height + ')')
 
