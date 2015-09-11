@@ -12,7 +12,7 @@ function loadTimeline(json) {
 	})
 
 	// Initial data set to 2 generations back
-	data = allData.filter(function(elem){
+	data = allData.filter(function (elem) {
 		return elem.genNum === 2;
 	})
 
@@ -61,42 +61,72 @@ function loadTimeline(json) {
 		.append('a')
 		.html('1')
 		.style('cursor', 'pointer')
-		.on('click', function(){
-			data = allData.filter(function(elem){
+		.on('click', function () {
+			data = allData.filter(function (elem) {
 				return elem.genNum === 1;
 			});
 			plot.call(chart, {
-				data: data
+				data: data,
+				axis: {
+					x: xAxis,
+					y: yAxis
+				},
+				init: false
 			})
-			console.log(data);
 		})
 
 	var pag2 = pagin.append('li')
 		.append('a')
 		.html('2')
 		.style('cursor', 'pointer')
-		.on('click', function(){
-			data = allData.filter(function(elem){
+		.on('click', function () {
+			data = allData.filter(function (elem) {
 				return elem.genNum === 2;
 			});
 			plot.call(chart, {
-				data: data
+				data: data,
+				axis: {
+					x: xAxis,
+					y: yAxis
+				},
+				init: false
 			})
-			console.log(data);
 		})
 
 	var pag3 = pagin.append('li')
 		.append('a')
 		.html('3')
 		.style('cursor', 'pointer')
-		.on('click', function(){
-			data = allData.filter(function(elem){
+		.on('click', function () {
+			data = allData.filter(function (elem) {
 				return elem.genNum === 3;
 			});
 			plot.call(chart, {
-				data: data
+				data: data,
+				axis: {
+					x: xAxis,
+					y: yAxis
+				},
+				init: false
 			})
-			console.log(data);
+		})
+
+	var pag3 = pagin.append('li')
+		.append('a')
+		.html('4')
+		.style('cursor', 'pointer')
+		.on('click', function () {
+			data = allData.filter(function (elem) {
+				return elem.genNum === 4;
+			});
+			plot.call(chart, {
+				data: data,
+				axis: {
+					x: xAxis,
+					y: yAxis
+				},
+				init: false
+			})
 		})
 
 	var svg = d3.select('.chart')
@@ -105,30 +135,9 @@ function loadTimeline(json) {
 		.attr('width', w)
 		.attr('height', h)
 
-	// var tooltip = d3.select('.chart')
-	// 	.append('g')
-	// 	.style('position', 'absolute')
-	// 	.style('padding', '0 10px')
-	// 	.style('background', 'white')
-	// 	.style('opacity', 0);
-
-	// var controls = d3.select('.controls');
-
 	var chart = svg.append('g')
 		.classed('display', true)
 		.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-
-	// <nav ng-show="ancestors">
-	// 	<ul class="pagination controls">
-	// 		<li><a>1</a></li>
-	// 		<li><a>2</a></li>
-	// 		<li><a>3</a></li>
-	// 		<li><a>4</a></li>
-	// 		<li><a>5</a></li>
-	// 		<li><a>6</a></li>
-	// 	</ul>
-	// </nav>
 
 	var xAxis = d3.svg.axis()
 		.scale(timeScale)
@@ -150,24 +159,42 @@ function loadTimeline(json) {
 		})
 
 	function drawAxis(params) {
-		// Draw the x axis
-		this.append('g')
-			.attr('transform', 'translate(0,' + height + ')')
-			.classed('x axis', true)
-			.call(xAxis);
 
-		// Draw the y axis
-		this.append('g')
-			// .attr('transform', 'translate(0,' + height + ')')
-			.classed('y axis', true)
-			.call(yAxis);
+		if (params.init) {
+			// Draw the x axis
+			this.append('g')
+				.attr('transform', 'translate(0,' + height + ')')
+				.classed('x axis', true)
+				.call(xAxis);
+
+			// Draw the y axis
+			this.append('g')
+				.classed('y axis', true)
+				.call(yAxis);
+		} else {
+
+			this.selectAll('g.x.axis')
+				.call(params.axis.x)
+			this.selectAll('g.y.axis')
+				.call(params.axis.y)
+		}
+
 	}
 
 	plot.call(chart, {
-		data: data
+		data: data,
+		axis: {
+			x: xAxis,
+			y: yAxis
+		},
+		init: true
 	})
 
 	function plot(params) {
+
+		if (data.length === 0) {
+			return;
+		}
 
 		var firstBD = d3.min(data, function (d) {
 			return new Date(d.bDate);
