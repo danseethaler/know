@@ -1,0 +1,22 @@
+{
+  "name": "know",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "main": "app.js"
+  },
+  "author": "Dan Seethaler",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "familysearch-javascript-sdk": "^2.0.4",
+    "logger": "0.0.1",
+    "moment": "^2.10.6",
+    "morgan": "^1.6.1",
+    "q": "^1.4.1",
+    "request": "^2.61.0"
+  }
+}
