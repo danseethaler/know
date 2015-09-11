@@ -1,0 +1,89 @@
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
+body {
+    padding: 50px;
+    font: 14px 'Open Sans', sans-serif;
+}
+a {
+    color: #00B7FF;
+}
+.capitalized {
+    text-transform: capitalize;
+}
+.list-group {
+    display: inline-block;
+    width: 100%;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.chart{
+    text-align: center;
+}
+#chart {
+    /*background-color: #E5EBF3;*/
+    /*border: 1px solid #63B0F2;*/
+	margin-top: 20px;
+}
+.bar {
+	/*fill: #404040;*/
+	shape-rendering: crispEdges;
+}
+.bar-label {
+	text-anchor: end;
+	fill: white;
+	text-transform: capitalize;
+}
+.axis path,
+.axis line{
+	shape-rendering: crispEdges;
+    fill: none;
+	stroke: #000;
+}
+.axis{
+	text-transform: capitalize;
+}
+
+
+/* Extra small devices (phones, less than 768px) */
+
+
+/* No media query since this is the default in Bootstrap */
+
+
+/* Small devices (tablets, 768px and up) */
+
+@media (min-width: 550px) {
+    .ancestors {
+        -webkit-column-count: 1;
+        /* Chrome, Safari, Opera */
+        -moz-column-count: 1;
+        /* Firefox */
+        column-count: 1;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+
+@media (min-width: 800px) {
+    .ancestors {
+        -webkit-column-count: 2;
+        /* Chrome, Safari, Opera */
+        -moz-column-count: 2;
+        /* Firefox */
+        column-count: 2;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+
+@media (min-width: 1200px) {
+    .ancestors {
+        -webkit-column-count: 3;
+        /* Chrome, Safari, Opera */
+        -moz-column-count: 3;
+        /* Firefox */
+        column-count: 3;
+    }
+}

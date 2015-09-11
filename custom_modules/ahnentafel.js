@@ -221,7 +221,8 @@ function ancArray(ancestors) {
 				}
 			}
 		}
-		newPerson.id = persons[i].id;
+
+		newPerson.id = persons[i].data.id;
 
 		personsArray.push(newPerson);
 	}
