@@ -11,6 +11,7 @@ var ahnentafel = require('./custom_modules/ahnentafel');
 var app = express();
 
 var dev = false;
+var genBack = 3;
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/public')));
@@ -59,7 +60,7 @@ app.post('/in', function (req, res) {
 
 		// Query for the users ancestors
 		fsClient.getAncestry(userId, {
-			generations: 6,
+			generations: genBack,
 			personDetails: true,
 			marriageDetails: false
 		}).then(function (ancestors) {

@@ -6,7 +6,6 @@ angular.module('app', [])
 
             initFS.login()
 				.then(function (req, res) {
-					console.log(req.data);
 					for (var prop in req.data) {
 						if (req.data.hasOwnProperty(prop)) {
 							$scope[prop] = req.data[prop];

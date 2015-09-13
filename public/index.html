@@ -11,10 +11,10 @@
 <body ng-app="app" ng-controller="mainContrl">
 
     <div class="container">
-        <button type="button" class="btn btn-primary" ng-click="login()" ng-hide="loggedin" name="login">Login</button>
-        <button type="button" class="btn btn-info" ng-click="logout()" ng-show="loggedin" name="logout">Logout</button>
+        <button type="button" class="btn btn-primary" ng-click="login()" ng-hide="loggedin" name="login" ng-cloak>Login</button>
+        <button type="button" class="btn btn-info" ng-click="logout()" ng-show="loggedin" name="logout" ng-cloak>Logout</button>
         <div class="chart"></div>
-        <div class="list-group" ng-repeat="pers in missingAnc">
+        <div class="list-group" ng-repeat="pers in missingAnc" ng-cloak>
             <a href="#" class="list-group-item">
                 <h4 class="list-group-item-heading">{{pers.path}}
                     <span class="badge">{{pers.genNum}}</span>

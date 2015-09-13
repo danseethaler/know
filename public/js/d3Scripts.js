@@ -8,6 +8,9 @@ function loadTimeline(json) {
 
 	// All data includes all data from the API
 	allData = json.filter(function (elem) {
+		// TODO: Determine if this main data should be
+		// filtered for the timeline
+		return true;
 		return elem.yearsOfLife;
 	})
 
@@ -188,6 +191,9 @@ function loadTimeline(json) {
 		});
 
 		var lastDD = d3.max(data, function (d) {
+			if (d.lifespan && d.lifespan.search('Living') >= 0) {
+				return new Date();
+			}
 			return new Date(d.dDate);
 		});
 
@@ -229,6 +235,10 @@ function loadTimeline(json) {
 				return y(d.name + ' ' + d.id);
 			})
 			.attr('width', function (d) {
+				// Add a final date for living ancestors
+				if (d.living) {
+					d.dDate = new Date().toString();
+				}
 				return timeScale(new Date(d.dDate)) - timeScale(new Date(d.bDate));
 			})
 			.attr('height', function (d, i) {
@@ -246,6 +256,9 @@ function loadTimeline(json) {
 
 		this.selectAll('.bar-label')
 			.attr('x', function (d, i) {
+				if (d.living) {
+					d.dDate = new Date().toString();
+				}
 				return (timeScale(new Date(d.dDate)) - timeScale(new Date(d.bDate))) / 2 + timeScale(new Date(d.bDate));
 			})
 			.attr('dx', '35')
@@ -256,6 +269,9 @@ function loadTimeline(json) {
 				return y.rangeBand() / 1.5
 			})
 			.text(function (d) {
+				if (d.living) {
+					d.deathDate = 'Living';
+				}
 				return d.birthDate.split(' ').pop() + ' - ' + d.deathDate.split(' ').pop();
 			})
 			// .style("pointer-events", "none")

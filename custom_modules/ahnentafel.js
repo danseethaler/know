@@ -1,6 +1,7 @@
-// Returns an object with the
 var moment = require('moment');
+var logger = require('tracer').console();
 
+// Get the written out ascendancy chain
 function relationship(aNum) {
 
 	if (aNum === 1) {
@@ -115,8 +116,8 @@ function shortRel(aNum) {
 	return Parentage;
 }
 
+// Find the first provided direct descendant
 function findDesc(aNum, ancestors) {
-	// Find the first provided direct descendant
 	var descendant = 1;
 
 	descNum = Math.floor(aNum/2);
@@ -138,8 +139,8 @@ function findDesc(aNum, ancestors) {
 	}
 }
 
+// Determine the number of generations back provided the ascendancy number
 function genNum(aNum) {
-	// Determine the number of generations back provided the ascendancy number
 	var genCount = 0;
 	while (Math.pow(2, genCount) <= aNum) {
 		genCount++;
@@ -175,6 +176,7 @@ function ancArray(ancestors) {
 				priorANum++;
 				// Add missing ancestor to missingPeople array
 				personsObj.missingPeople.push({
+					aNum: priorANum,
 					genNum: genNum(priorANum),
 					path: shortRel(priorANum),
 					nextDesc: findDesc(priorANum, personsObj.list)
@@ -217,9 +219,18 @@ function ancArray(ancestors) {
 						newPerson.bDate = birthDate;
 					}
 
+					// TODO: This should probably be determined by the lifespan search rather than a missing deathdate.
+					if (!thisPerson.deathDate) {
+						if (thisPerson.lifespan.search('Living') < 0) {
+							logger.log('No death date but \'Living\' not on lifespan. Id: ' + thisPerson.id);
+						}
+						newPerson.living = true;
+						console.log(thisPerson.lifespan);
+					}
+
 					newPerson.birthDate = thisPerson.birthDate;
 
-					// Calculate the lifespane of the person
+					// Calculate the lifespan of the person
 					if (thisPerson.deathDate && thisPerson.deathDate.toUpperCase() != 'UNKNOWN') {
 
 						var bdFormat = thisPerson.birthDate.match(/ /g);
