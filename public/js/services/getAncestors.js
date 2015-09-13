@@ -24,6 +24,7 @@ angular.module('app')
 
 		this.logout = function(){
 			fsClient.invalidateAccessToken();
+			location.href = location.origin;
 		}
 
 	})

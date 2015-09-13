@@ -18,6 +18,14 @@ app.post('/in', function (req, res) {
 	var userId = req.body.userId;
 	console.log('Requesting ancestors for:', userId);
 
+	// Create user_data directory if needed
+	try {
+	    fs.mkdirSync(path.join(__dirname, 'user_data'))
+	}
+	catch (e){
+	    if (e.code !== 'EEXIST') throw e;
+	}
+
 	// Check if file exists
 	var filename = './user_data/' + userId + '.json';
 	fs.stat(filename, function (err, stats) {
@@ -93,10 +101,7 @@ app.post('/in', function (req, res) {
 	}
 });
 
-/**
- * Normalize a port into a number, string, or false.
- */
-
+// Normalize a port into a number, string, or false.
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
