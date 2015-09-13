@@ -10,8 +10,8 @@ var ahnentafel = require('./custom_modules/ahnentafel');
 
 var app = express();
 
-var dev = false;
-var genBack = 3;
+var dev = true;
+var genBack = 6;
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/public')));
