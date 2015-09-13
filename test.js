@@ -1,19 +1,34 @@
-var fs = require('fs');
-var path = require('path');
-
-try {
-    fs.mkdirSync(path.join(__dirname, 'user_data1'))
+var anc = 0;
+for (var i = 0; i <= 7; i++) {
+    anc += Math.pow(2, i);
 }
-catch (e){
-    if (e.code !== 'EEXIST') throw e;
-}
+console.log(anc + 1);
 
-var filename = path.join(__dirname, 'user_data1/', 'userId') + '.json';
+// console.log(Math.floor(15/2));
+//
+// console.log(
+//     for (var i = 0; i < array.length; i++) {
+//
+//     }
+//     [1,2,3,4,5].sort(function(a, b){
+//         return b - a;
+//     })
+// );
 
-fs.writeFile(filename, JSON.stringify("{'awesome': true}", null, 4), function (err) {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log('./user_data/' + 'userId' + '.json - File successfully written');
+function(){
+    var missingPeople = [];
+    var aCount = 0;
+    var gensBack = 7;
+    // Determine the highest ascendancy number given the generations requested
+    for (var i = 0; i <= gensBack; i++) {
+        aCount += Math.pow(2, i);
     }
-})
+    aCount++; // Add one to the aCount to include yourself
+
+    // Add a new property on the object for each aNum
+    for (i = 2; i < aCount; i++){
+        missingPeople[i] = false;
+    }
+
+    return missingPeople;
+}();

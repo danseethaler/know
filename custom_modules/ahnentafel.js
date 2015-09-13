@@ -115,18 +115,74 @@ function shortRel(aNum) {
 	return Parentage;
 }
 
+function findDesc(aNum, ancestors) {
+	// Find the first provided direct descendant
+	var descendant = 1;
+
+	descNum = Math.floor(aNum/2);
+
+	// Continue down the tree until a descendant is found
+	while (descNum >= 1) {
+		// Iterate over the array to find a match
+		for (var i = 0; i < ancestors.length; i++) {
+			if (ancestors[i].ascendancyNumber == descNum) {
+				return {
+					name: ancestors[i].name,
+					id: ancestors[i].id,
+					descendant: descendant
+				};
+			}
+		}
+		descNum = Math.floor(descNum/2);
+		descendant++;
+	}
+}
+
+function genNum(aNum) {
+	// Determine the number of generations back provided the ascendancy number
+	var genCount = 0;
+	while (Math.pow(2, genCount) <= aNum) {
+		genCount++;
+	}
+	return genCount - 1;
+}
+
 // Transforms the persons object from the FS API to an array
 // with additional properties
 function ancArray(ancestors) {
-	console.log(ancestors);
-	debugger;
-	var personsArray = [];
+	var personsObj = {};
+	personsObj.list = [];
+
+	// Create a list of all the ahnentafel numbers that should be returned
+	personsObj.missingPeople = [];
+
 	var persons = ancestors.getPersons();
+
+	// Sort by aNum to be able to get any missing persons direct descendant
+	persons.sort(function(a, b){
+		var firstNum = a.data.display.ascendancyNumber ? a.data.display.ascendancyNumber : 0;
+		var secondNum = b.data.display.ascendancyNumber ? b.data.display.ascendancyNumber : 0;
+		return firstNum - secondNum;
+	});
 
 	for (var i = 0; i < persons.length; i++) {
 
-		var newPerson = {};
 		var thisPerson = persons[i].data.display;
+
+		if (priorANum) {
+			while (priorANum != parseInt(thisPerson.ascendancyNumber) - 1) {
+				debugger;
+				priorANum++;
+				// Add missing ancestor to missingPeople array
+				personsObj.missingPeople.push({
+					genNum: genNum(priorANum),
+					path: shortRel(priorANum),
+					nextDesc: findDesc(priorANum, personsObj.list)
+				});
+			}
+		}
+
+		var newPerson = {};
 
 		for (var property in thisPerson) {
 			if (thisPerson.hasOwnProperty(property)) {
@@ -136,13 +192,7 @@ function ancArray(ancestors) {
 
 					newPerson.relationship = relationship(Number(thisPerson[property]));
 					newPerson.shortRel = shortRel(Number(thisPerson[property]));
-
-					// Determine the number of generations back
-					var genCount = 0;
-					while (Math.pow(2, genCount) <= thisPerson.ascendancyNumber) {
-						genCount++;
-					}
-					newPerson.genNum = genCount - 1;
+					newPerson.genNum = genNum(thisPerson.ascendancyNumber);
 
 					break;
 				case 'name':
@@ -225,20 +275,12 @@ function ancArray(ancestors) {
 		}
 
 		newPerson.id = persons[i].data.id;
+		var priorANum = newPerson.ascendancyNumber;
 
-		personsArray.push(newPerson);
+		personsObj.list.push(newPerson);
 	}
 
-	return personsArray.sort(function(a, b){
-		if (a.ascendancyNumber && b.ascendancyNumber) {
-			return a.ascendancyNumber - b.ascendancyNumber;
-		}
-		if (a.ascendancyNumber) {
-			return a.ascendancyNumber;
-		}else {
-			return b.ascendancyNumber;
-		}
-	});
+	return personsObj;
 
 }
 

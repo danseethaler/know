@@ -6,7 +6,12 @@ angular.module('app', [])
 
             initFS.login()
 				.then(function (req, res) {
-                    $scope.ancestors = req.data.ancestors;
+					console.log(req.data);
+					for (var prop in req.data) {
+						if (req.data.hasOwnProperty(prop)) {
+							$scope[prop] = req.data[prop];
+						}
+					}
                     loadTimeline(req.data.ancestors);
 				});
 		}

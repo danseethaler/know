@@ -10,6 +10,8 @@ var ahnentafel = require('./custom_modules/ahnentafel');
 
 var app = express();
 
+var dev = false;
+
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/public')));
 
@@ -31,8 +33,8 @@ app.post('/in', function (req, res) {
 	fs.stat(filename, function (err, stats) {
 
 		// If there's an error the file does not exists
-		if (err) {
-			console.log('File does not exist - requesting data');
+		if (err || dev) {
+			console.log('File does not exist - requesting data', dev);
 			getData();
 
 		} else {
@@ -68,6 +70,8 @@ app.post('/in', function (req, res) {
 				// get the user data and set it to the user variable.
 				var userData = response.getUser().data;
 
+				var myAhnentafel = ahnentafel(ancestors);
+
 				// Create a new user object
 				var user = {
 					contactName: userData.contactName,
@@ -82,7 +86,8 @@ app.post('/in', function (req, res) {
 					displayName: userData.displayName,
 					personId: userData.personId,
 					treeuserId: userData.treeUserId,
-					ancestors: ahnentafel(ancestors)
+					ancestors: myAhnentafel.list,
+					missingAnc: myAhnentafel.missingPeople
 				};
 
 				var filename = path.join(__dirname, 'user_data/', userId) + '.json';
