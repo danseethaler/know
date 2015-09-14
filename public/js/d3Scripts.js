@@ -8,20 +8,24 @@ function loadTimeline(json) {
 
 	// All data includes all data from the API
 	allData = json.filter(function (elem) {
-		// TODO: Determine if this main data should be
-		// filtered for the timeline
-		return true;
-		return elem.yearsOfLife;
+		if (elem.yearsOfLife || (elem.bDate && elem.lifespan.search('Living') >= 0)) {
+			return true;
+		}else {
+			return false;
+		}
 	})
+
+	if (allData.filter(function(elem){
+		return elem.genNum === 1;
+	}).length > 0 ){
+		var genBack = 1;
+	}else {
+		var genBack = 2
+	}
 
 	// Initial data set to 2 generations back
 	data = allData.filter(function (elem) {
-		return elem.genNum === 2;
-	})
-
-	// Sorting the data by ascendancy number
-	data.sort(function (a, b) {
-		return a.ascendancyNumber - b.ascendancyNumber;
+		return elem.genNum === genBack;
 	})
 
 	// Set margins for the chart
@@ -59,28 +63,6 @@ function loadTimeline(json) {
 		.attr('ng-show', 'ancestors')
 		.append('ul')
 		.classed('pagination controls', true)
-
-
-
-	if (length > 0) {
-		var pag1 = pagin.append('li')
-			.append('a')
-			.html('1')
-			.style('cursor', 'pointer')
-			.on('click', function () {
-				data = allData.filter(function (elem) {
-					return elem.genNum === 1;
-				});
-				plot.call(chart, {
-					data: data,
-					axis: {
-						x: xAxis,
-						y: yAxis
-					},
-					init: false
-				})
-			})
-	}
 
 	// Create the pagination elements
 	for (var i = 1; i <= 6; i++) {
@@ -175,21 +157,17 @@ function loadTimeline(json) {
 
 	function plot(params) {
 
+		// If there is no data then don't redraw the chart
 		if (data.length === 0) {
 			return;
 		}
 
-		// Reset the height of the chart
-		height = 35 * data.length;
-		y.rangeRoundBands([0, height]);
-		svg.attr('height', height + margin.top + margin.bottom)
-		d3.select('g.x.axis')
-			.attr('transform', 'translate(0,' + height + ')')
-
+		// Find the smallest date in the data set
 		var firstBD = d3.min(data, function (d) {
 			return new Date(d.bDate);
 		});
 
+		// Find the largest date in the data set
 		var lastDD = d3.max(data, function (d) {
 			if (d.lifespan && d.lifespan.search('Living') >= 0) {
 				return new Date();
@@ -197,12 +175,20 @@ function loadTimeline(json) {
 			return new Date(d.dDate);
 		});
 
+		// Reset the height of the chart
+		height = 35 * data.length;
+		y.rangeRoundBands([0, height]);
+		svg.attr('height', height + margin.top + margin.bottom)
+		d3.select('g.x.axis')
+			.attr('transform', 'translate(0,' + height + ')')
 		timeScale.domain([firstBD, lastDD]);
 
+		// Redefine the domain of the x scale
 		x.domain([0, d3.max(data, function (d) {
 			return d.yearsOfLife;
 		})])
 
+		// Redefine the domain of the y scale
 		y.domain(data.map(function (person) {
 			return person.name + ' ' + person.id;
 		}))
@@ -282,7 +268,6 @@ function loadTimeline(json) {
 			.exit()
 			.remove();
 
-		// Enter phase
 		this.selectAll('.bar-label')
 			.data(params.data)
 			.exit()

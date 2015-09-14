@@ -11,19 +11,20 @@
 <body ng-app="app" ng-controller="mainContrl">
 
     <div class="container">
-        <button type="button" class="btn btn-primary" ng-click="login()" ng-hide="loggedin" name="login" ng-cloak>Login</button>
+        <button type="button" class="btn btn-primary" ng-click="login(false)" ng-hide="loggedin" name="login" ng-cloak>Login</button>
+        <button type="button" class="btn btn-success" ng-click="login(true)" ng-show="loggedin" name="refresh" ng-cloak>Refresh FS Data</button>
         <button type="button" class="btn btn-info" ng-click="logout()" ng-show="loggedin" name="logout" ng-cloak>Logout</button>
         <div class="chart"></div>
         <div class="list-group" ng-repeat="pers in missingAnc" ng-cloak>
             <a href="#" class="list-group-item">
                 <h4 class="list-group-item-heading">{{pers.path}}
-                    <span class="badge">{{pers.genNum}}</span>
+                    <span class="badge">{{pers.aNum}}</span>
                 </h4>
                 <p class="list-group-item-text">
-                    {{pers.nextDesc.name}}
-                    <br> {{pers.nextDesc.id}}
-                    <br> {{pers.nextDesc.descendant}}
-                    <br>
+                    {{pers.genNum}}<br>
+                    {{pers.nextDesc.name}}<br>
+                    {{pers.nextDesc.id}}<br>
+                    {{pers.nextDesc.descendant}}
                 </p>
             </a>
         </div>
@@ -34,6 +35,7 @@
     <script src="js/services/getAncestors.js" charset="utf-8"></script>
     <script src="js/script.js" charset="utf-8"></script>
     <script src="js/d3.min.js" charset="utf-8"></script>
+    <script src="js/cookies.js" charset="utf-8"></script>
     <script src="js/d3Scripts.js" charset="utf-8"></script>
 </body>
 

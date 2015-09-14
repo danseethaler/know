@@ -219,13 +219,8 @@ function ancArray(ancestors) {
 						newPerson.bDate = birthDate;
 					}
 
-					// TODO: This should probably be determined by the lifespan search rather than a missing deathdate.
-					if (!thisPerson.deathDate) {
-						if (thisPerson.lifespan.search('Living') < 0) {
-							logger.log('No death date but \'Living\' not on lifespan. Id: ' + thisPerson.id);
-						}
+					if (thisPerson.lifespan.search('Living') >= 0) {
 						newPerson.living = true;
-						console.log(thisPerson.lifespan);
 					}
 
 					newPerson.birthDate = thisPerson.birthDate;
@@ -243,17 +238,23 @@ function ancArray(ancestors) {
 							var birthMoment = moment(thisPerson.birthDate, 'MMM YYYY');
 						}
 
+						// Count the number of spaces in the date
 						var ddFormat = thisPerson.deathDate.match(/ /g);
+						var deathMoment = 0;
 
 						if (ddFormat === null) {
-							var deathMoment = moment(thisPerson.deathDate, 'YYYY');
+							deathMoment = moment(thisPerson.deathDate, 'YYYY');
+							// Get the difference in years
+							newPerson.yearsOfLife = deathMoment.diff(birthMoment, 'years');
 						} else if (ddFormat.length === 2) {
-							var deathMoment = moment(thisPerson.deathDate, 'D MMM YYYY');
-						} else {
-							var deathMoment = moment(thisPerson.deathDate, 'MMM YYYY');
+							deathMoment = moment(thisPerson.deathDate, 'D MMM YYYY');
+							// Get the difference in years
+							newPerson.yearsOfLife = deathMoment.diff(birthMoment, 'years');
+						} else if (ddFormat.length === 1) {
+							deathMoment = moment(thisPerson.deathDate, 'MMM YYYY');
+							// Get the difference in years
+							newPerson.yearsOfLife = deathMoment.diff(birthMoment, 'years');
 						}
-						// Get the difference in years
-						newPerson.yearsOfLife = deathMoment.diff(birthMoment, 'years');
 					}
 					break;
 				case 'deathDate':
