@@ -8,6 +8,10 @@ body {
 a {
     color: #00B7FF;
 }
+span{
+    text-transform: capitalize;
+    font-weight: bold;
+}
 .capitalized {
     text-transform: capitalize;
 }

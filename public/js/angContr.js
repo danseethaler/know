@@ -33,12 +33,15 @@ angular.module('app', [])
 			initFS.logout();
 		}
 
-		$scope.setGen = function(genNum){
+		$scope.setGen = function (genNum) {
 			$scope.genNum = genNum;
 			$scope.setAvgAge();
 		}
 
-		$scope.setAvgAge = function(){
+		$scope.setAvgAge = function () {
+
+			$scope.getdyk();
+
 			var sum = 0;
 			var count = 0;
 
@@ -48,11 +51,32 @@ angular.module('app', [])
 					count++;
 				}
 			}
+
 			if (count === 0) {
 				$scope.avgAge = 'No data';
-			}else {
-				$scope.avgAge = Math.round(sum/count);
+			} else {
+				$scope.avgAge = Math.round(sum / count);
 			}
 		}
 
+		$scope.getdyk = function () {
+			var oldest = {yearsOfLife: 0};
+			var youngest = {yearsOfLife: 150};
+
+			for (var i = 0; i < $scope.ancestors.length; i++) {
+				if ($scope.ancestors[i].yearsOfLife) {
+					if ($scope.ancestors[i].yearsOfLife > oldest.yearsOfLife) {
+						oldest = $scope.ancestors[i];
+					}
+					if ($scope.ancestors[i].yearsOfLife < youngest.yearsOfLife) {
+						youngest = $scope.ancestors[i];
+					}
+				}
+			}
+
+			$scope.dyk = {
+				oldest: oldest,
+				youngest: youngest
+			}
+		}
 	})

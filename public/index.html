@@ -18,6 +18,8 @@
             <div class="list-group col-xs-3">
                 <a href="#" class="list-group-item active" ng-click="setGen(2)">Generation Data</a>
                 <a href="#" class="list-group-item">Average Lifespan: <span ng-bind="avgAge"></span></a>
+                <a href="#" class="list-group-item">Oldest - Name: <span ng-bind="dyk.oldest.name"></span> - Age: <span ng-bind="dyk.oldest.yearsOfLife"></span></a>
+                <a href="#" class="list-group-item">Youngest - Name: <span ng-bind="dyk.youngest.name"></span> - Age: <span ng-bind="dyk.youngest.yearsOfLife"></span></a>
             </div>
             <div class="chart col-md-8"></div>
         </div>
