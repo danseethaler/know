@@ -18,9 +18,9 @@ console.log(anc + 1);
 function(){
     var missingPeople = [];
     var aCount = 0;
-    var gensBack = 7;
+    var genBack = 7;
     // Determine the highest ascendancy number given the generations requested
-    for (var i = 0; i <= gensBack; i++) {
+    for (var i = 0; i <= genBack; i++) {
         aCount += Math.pow(2, i);
     }
     aCount++; // Add one to the aCount to include yourself

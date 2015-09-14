@@ -11,40 +11,34 @@ a {
 .capitalized {
     text-transform: capitalize;
 }
-.list-group {
-    display: inline-block;
-    width: 100%;
-    margin-right: 10px;
-    margin-bottom: 10px;
+.row {
+    margin: 20px 0px;
 }
-
-.chart{
+.chart {
     text-align: center;
 }
 #chart {
     /*background-color: #E5EBF3;*/
     /*border: 1px solid #63B0F2;*/
-	margin-top: 20px;
+    margin-top: 20px;
 }
 .bar {
-	/*fill: #404040;*/
-	shape-rendering: crispEdges;
+    /*fill: #404040;*/
+    shape-rendering: crispEdges;
 }
 .bar-label {
-	text-anchor: end;
-	fill: white;
-	text-transform: capitalize;
+    text-anchor: end;
+    fill: white;
+    text-transform: capitalize;
 }
-.axis path,
-.axis line{
-	shape-rendering: crispEdges;
+.axis path, .axis line {
+    shape-rendering: crispEdges;
     fill: none;
-	stroke: #000;
+    stroke: #000;
 }
-.axis{
-	text-transform: capitalize;
+.axis {
+    text-transform: capitalize;
 }
-
 
 /* Extra small devices (phones, less than 768px) */
 

@@ -14,17 +14,23 @@
         <button type="button" class="btn btn-primary" ng-click="login(false)" ng-hide="loggedin" name="login" ng-cloak>Login</button>
         <button type="button" class="btn btn-success" ng-click="login(true)" ng-show="loggedin" name="refresh" ng-cloak>Refresh FS Data</button>
         <button type="button" class="btn btn-info" ng-click="logout()" ng-show="loggedin" name="logout" ng-cloak>Logout</button>
-        <div class="chart"></div>
+        <div class="container row" ng-show="ancestors">
+            <div class="list-group col-xs-3">
+                <a href="#" class="list-group-item active" ng-click="setGen(2)">Generation Data</a>
+                <a href="#" class="list-group-item">Average Lifespan: <span ng-bind="avgAge"></span></a>
+            </div>
+            <div class="chart col-md-8"></div>
+        </div>
         <div class="list-group" ng-repeat="pers in missingAnc" ng-cloak>
             <a href="#" class="list-group-item">
                 <h4 class="list-group-item-heading">{{pers.path}}
                     <span class="badge">{{pers.aNum}}</span>
                 </h4>
                 <p class="list-group-item-text">
-                    {{pers.genNum}}<br>
-                    {{pers.nextDesc.name}}<br>
-                    {{pers.nextDesc.id}}<br>
-                    {{pers.nextDesc.descendant}}
+                    <span>{{pers.genNum}}</span><br>
+                    <span>{{pers.nextDesc.name}}</span><br>
+                    <span>{{pers.nextDesc.id}}</span><br>
+                    <span>{{pers.nextDesc.descendant}}</span>
                 </p>
             </a>
         </div>

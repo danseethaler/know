@@ -10,16 +10,18 @@ function loadTimeline(json) {
 	allData = json.filter(function (elem) {
 		if (elem.yearsOfLife || (elem.bDate && elem.lifespan.search('Living') >= 0)) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	})
 
-	if (allData.filter(function(elem){
-		return elem.genNum === 1;
-	}).length > 0 ){
+	// Check to see if some elements in the array have a
+	// genNum of 1
+	if (allData.some(function (elem) {
+			return elem.genNum === 1;
+		})) {
 		var genBack = 1;
-	}else {
+	} else {
 		var genBack = 2
 	}
 
@@ -76,6 +78,7 @@ function loadTimeline(json) {
 				pagin.append('li')
 					.append('a')
 					.html(int)
+					.attr('ng-click', 'setGen(' + int +')')
 					.style('cursor', 'pointer')
 					.on('click', function () {
 						data = allData.filter(function (elem) {
@@ -274,4 +277,6 @@ function loadTimeline(json) {
 			.remove()
 
 	}
+
+	return genBack;
 }
