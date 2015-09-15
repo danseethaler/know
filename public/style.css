@@ -15,8 +15,16 @@ span{
 .capitalized {
     text-transform: capitalize;
 }
+/*Bootstrap*/
 .row {
     margin: 20px 0px;
+}
+.panel-success{
+    border-color: #fff;
+}
+.panel-success .panel-heading{
+    background-color: #5CB85C;
+    color: #fff;
 }
 .chart {
     text-align: center;

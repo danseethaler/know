@@ -120,7 +120,7 @@ function shortRel(aNum) {
 function findDesc(aNum, ancestors) {
 	var descendant = 1;
 
-	descNum = Math.floor(aNum/2);
+	descNum = Math.floor(aNum / 2);
 
 	// Continue down the tree until a descendant is found
 	while (descNum >= 1) {
@@ -134,7 +134,7 @@ function findDesc(aNum, ancestors) {
 				};
 			}
 		}
-		descNum = Math.floor(descNum/2);
+		descNum = Math.floor(descNum / 2);
 		descendant++;
 	}
 }
@@ -160,7 +160,7 @@ function ancArray(ancestors) {
 	var persons = ancestors.getPersons();
 
 	// Sort by aNum to be able to get any missing persons direct descendant
-	persons.sort(function(a, b){
+	persons.sort(function (a, b) {
 		var firstNum = a.data.display.ascendancyNumber ? a.data.display.ascendancyNumber : 0;
 		var secondNum = b.data.display.ascendancyNumber ? b.data.display.ascendancyNumber : 0;
 		return firstNum - secondNum;
@@ -169,6 +169,7 @@ function ancArray(ancestors) {
 	for (var i = 0; i < persons.length; i++) {
 
 		var thisPerson = persons[i].data.display;
+		newPerson.id = persons[i].data.id;
 
 		if (priorANum) {
 			while (priorANum != parseInt(thisPerson.ascendancyNumber) - 1) {
@@ -286,7 +287,6 @@ function ancArray(ancestors) {
 			}
 		}
 
-		newPerson.id = persons[i].data.id;
 		var priorANum = newPerson.ascendancyNumber;
 
 		personsObj.list.push(newPerson);

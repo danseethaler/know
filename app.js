@@ -69,6 +69,8 @@ app.post('/in', function (req, res) {
 			marriageDetails: false
 		}).then(function (ancestors) {
 
+			console.log('Received ancestors from FS. Processing data...');
+
 			// Get the user information for the user object
 			fsClient.getCurrentUser().then(function (response) {
 
@@ -90,10 +92,15 @@ app.post('/in', function (req, res) {
 					preferredLanguage: userData.preferredLanguage,
 					displayName: userData.displayName,
 					personId: userData.personId,
-					treeuserId: userData.treeUserId,
-					ancestors: myAhnentafel.list,
-					missingAnc: myAhnentafel.missingPeople
+					treeuserId: userData.treeUserId
 				};
+
+				// Add all the properties from the myAhnentafel obj
+				for (var prop in myAhnentafel) {
+					if (myAhnentafel.hasOwnProperty(prop)) {
+						user[prop] = myAhnentafel[prop];
+					}
+				}
 
 				var filename = path.join(__dirname, 'user_data/', userId) + '.json';
 
