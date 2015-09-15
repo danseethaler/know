@@ -152,7 +152,7 @@ function genNum(aNum) {
 // with additional properties
 function ancArray(ancestors) {
 	var personsObj = {};
-	personsObj.list = [];
+	personsObj.ancestors = [];
 
 	// Create a list of all the ahnentafel numbers that should be returned
 	personsObj.missingPeople = [];
@@ -171,23 +171,23 @@ function ancArray(ancestors) {
 	for (var i = 0; i < persons.length; i++) {
 
 		var thisPerson = persons[i].data.display;
+
+		// Create the newPerson obj
+		var newPerson = {};
 		newPerson.id = persons[i].data.id;
 
 		if (priorANum) {
 			while (priorANum != parseInt(thisPerson.ascendancyNumber) - 1) {
-				debugger;
 				priorANum++;
 				// Add missing ancestor to missingPeople array
 				personsObj.missingPeople.push({
 					aNum: priorANum,
 					genNum: genNum(priorANum),
 					path: shortRel(priorANum),
-					nextDesc: findDesc(priorANum, personsObj.list)
+					nextDesc: findDesc(priorANum, personsObj.ancestors)
 				});
 			}
 		}
-
-		var newPerson = {};
 
 		for (var property in thisPerson) {
 			if (thisPerson.hasOwnProperty(property)) {
@@ -200,9 +200,11 @@ function ancArray(ancestors) {
 					newPerson.genNum = genNum(thisPerson.ascendancyNumber);
 
 					break;
+
 				case 'name':
 					newPerson[property] = thisPerson[property].toLowerCase();
 					break;
+
 				case 'birthDate':
 					// Get the length of the array
 					var bdLength = thisPerson.birthDate.split(' ').length;
@@ -260,6 +262,7 @@ function ancArray(ancestors) {
 						}
 					}
 					break;
+
 				case 'deathDate':
 					// Get the length of the array
 					var bdLength = thisPerson.deathDate.split(' ').length;
@@ -280,8 +283,8 @@ function ancArray(ancestors) {
 					}
 
 					newPerson.deathDate = thisPerson.deathDate;
-
 					break;
+
 				default:
 					newPerson[property] = thisPerson[property];
 					break;
@@ -302,17 +305,16 @@ function ancArray(ancestors) {
 		var missPropObj = {};
 		missPropObj.props = [];
 
-		for (var i = 0; i < requiredProps.length; i++) {
+		for (var p = 0; p < requiredProps.length; p++) {
 		    // If the ancestor is missing a required property
-		    if (!thisPerson[requiredProps[i]] && parseInt(thisPerson.ascendancyNumber, 10) > 1) {
-		        debugger;
+		    if (!thisPerson[requiredProps[p]] && parseInt(thisPerson.ascendancyNumber, 10) > 1) {
 		        // If the person id deceased check all properties
 		        if (thisPerson.lifespan.search('Living') < 0) {
-		            missPropObj.props.push(requiredProps[i])
+		            missPropObj.props.push(requiredProps[p])
 
 		        // If the person is living don't check for death data
-		        } else if (requiredProps[i] !== 'deathDate' && requiredProps[i] !== 'deathPlace') {
-		            missPropObj.props.push(requiredProps[i])
+		        } else if (requiredProps[p] !== 'deathDate' && requiredProps[p] !== 'deathPlace') {
+		            missPropObj.props.push(requiredProps[p])
 		        }
 		    }
 		}
@@ -327,7 +329,7 @@ function ancArray(ancestors) {
 
 		var priorANum = thisPerson.ascendancyNumber;
 
-		personsObj.list.push(newPerson);
+		personsObj.ancestors.push(newPerson);
 	}
 
 	return personsObj;

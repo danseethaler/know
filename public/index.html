@@ -39,10 +39,24 @@
 
                     <a href="https://familysearch.org/tree/#view=ancestor&person={{dyk.youngest.id}}" target="_blank" class="list-group-item">Youngest - Name: <span ng-bind="dyk.youngest.name"></span> - Age: <span ng-bind="dyk.youngest.yearsOfLife"></span></a>
                 </div>
+                <br>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                      <span class="">Ancestors with missing data ({{incompletePers.length}})</span>
+                    </div>
+                    <div class="list-group-item" ng-repeat="shortPers in incompletePers">{{shortPers.name}}
+                    <a class="list-group-item" ng-if="shortPers.props.indexOf('birthDate') >= 0">Birth Date</a>
+                    <a class="list-group-item" ng-if="shortPers.props.indexOf('birthPlace') >= 0">Birth Place</a>
+                    <a class="list-group-item" ng-if="shortPers.props.indexOf('deathDate') >= 0">Death Date</a>
+                    <a class="list-group-item" ng-if="shortPers.props.indexOf('deathPlace') >= 0">Death Place</a>
+                    <a class="list-group-item" ng-if="shortPers.props.indexOf('marriageDate') >= 0">Marriage Date</a>
+                    <a class="list-group-item" ng-if="shortPers.props.indexOf('marriagePlace') >= 0">Marriage Place</a>
+                </div>
+                </div>
             </div>
             <div class="chart col-md-8"></div>
         </div>
-        <div class="list-group" ng-repeat="pers in missingAnc" ng-cloak>
+        <div class="list-group" ng-repeat="pers in missingPeople" ng-cloak>
             <a class="list-group-item">
                 <h4 class="list-group-item-heading">{{pers.path}}
                     <span class="badge">{{pers.aNum}}</span>
