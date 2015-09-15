@@ -156,6 +156,8 @@ function ancArray(ancestors) {
 
 	// Create a list of all the ahnentafel numbers that should be returned
 	personsObj.missingPeople = [];
+	// Create the incompletePers array
+	personsObj.incompletePers = [];
 
 	var persons = ancestors.getPersons();
 
@@ -287,7 +289,43 @@ function ancArray(ancestors) {
 			}
 		}
 
-		var priorANum = newPerson.ascendancyNumber;
+		// Check for missing properties
+		var requiredProps = [
+		    'birthDate',
+		    'birthPlace',
+		    'deathDate',
+		    'deathPlace',
+		    'marriageDate',
+		    'marriagePlace'
+		]
+
+		var missPropObj = {};
+		missPropObj.props = [];
+
+		for (var i = 0; i < requiredProps.length; i++) {
+		    // If the ancestor is missing a required property
+		    if (!thisPerson[requiredProps[i]] && parseInt(thisPerson.ascendancyNumber, 10) > 1) {
+		        debugger;
+		        // If the person id deceased check all properties
+		        if (thisPerson.lifespan.search('Living') < 0) {
+		            missPropObj.props.push(requiredProps[i])
+
+		        // If the person is living don't check for death data
+		        } else if (requiredProps[i] !== 'deathDate' && requiredProps[i] !== 'deathPlace') {
+		            missPropObj.props.push(requiredProps[i])
+		        }
+		    }
+		}
+
+		// If the missPropObj
+		if (missPropObj.props.length > 0) {
+		    // Add the missing property to the list
+		    missPropObj.id = thisPerson.id;
+		    missPropObj.name = thisPerson.name;
+		    personsObj.incompletePers.push(missPropObj);
+		}
+
+		var priorANum = thisPerson.ascendancyNumber;
 
 		personsObj.list.push(newPerson);
 	}

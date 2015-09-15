@@ -10,8 +10,7 @@ var ahnentafel = require('./custom_modules/ahnentafel');
 
 var app = express();
 
-var dev = false;
-var genBack = 6;
+var genBack = 3;
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/public')));
@@ -34,7 +33,7 @@ app.post('/in', function (req, res) {
 	fs.stat(filename, function (err, stats) {
 
 		// If there's an error the file does not exists
-		if (err || dev || req.body.refresh) {
+		if (err || req.body.refresh || true) {
 			if (!err) {
 				console.log('File exists - Requesting data anyway.');
 			}else {
