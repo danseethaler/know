@@ -8,6 +8,12 @@ angular.module('app', [])
 
 			initFS.login(refresh)
 				.then(function (req, res) {
+
+					if (req === 'unauthorized') {
+						initFS.logout();
+						return;
+					}
+
 					for (var prop in req.data) {
 						if (req.data.hasOwnProperty(prop)) {
 							$scope[prop] = req.data[prop];

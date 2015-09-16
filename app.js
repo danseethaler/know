@@ -70,6 +70,7 @@ app.post('/in', function (req, res) {
 		}).catch(function (reason) {
 			console.log('getAncestry promise failed');
 			console.log(reason);
+			res.send('unauthorized');
 		}).then(function (ancestors) {
 
 			console.log('Received ancestors from FS. Processing data...');
