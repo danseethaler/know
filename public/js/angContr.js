@@ -11,31 +11,32 @@ angular.module('app', [])
 
 					if (req === 'unauthorized') {
 						initFS.logout();
-						return;
-					}
+					} else {
 
-					for (var prop in req.data) {
-						if (req.data.hasOwnProperty(prop)) {
-							$scope[prop] = req.data[prop];
+						for (var prop in req.data) {
+							if (req.data.hasOwnProperty(prop)) {
+								$scope[prop] = req.data[prop];
+							}
 						}
+
+						var myNode = document.querySelector(".chart");
+						while (myNode.firstChild) {
+							myNode.removeChild(myNode.firstChild);
+						}
+
+						$scope.genNum = loadTimeline($scope.ancestors);
+
+						$scope.calcDyk();
+
+						$scope.loading = false;
+
+						// This compile function takes the controls div
+						// and compiles the appended pagination elements
+						// into Angular so the ng-click functions fire
+						// when clicked.
+						$compile(document.getElementById('controls'))($scope);
+
 					}
-
-					var myNode = document.querySelector(".chart");
-					while (myNode.firstChild) {
-						myNode.removeChild(myNode.firstChild);
-					}
-
-					$scope.genNum = loadTimeline($scope.ancestors);
-
-					$scope.calcDyk();
-
-					$scope.loading = false;
-
-					// This compile function takes the controls div
-					// and compiles the appended pagination elements
-					// into Angular so the ng-click functions fire
-					// when clicked.
-					$compile(document.getElementById('controls'))($scope);
 				});
 		}
 
@@ -50,8 +51,12 @@ angular.module('app', [])
 
 		$scope.calcDyk = function () {
 
-			var oldest = {yearsOfLife: 0};
-			var youngest = {yearsOfLife: 150};
+			var oldest = {
+				yearsOfLife: 0
+			};
+			var youngest = {
+				yearsOfLife: 150
+			};
 
 			for (var i = 0; i < $scope.ancestors.length; i++) {
 				if ($scope.ancestors[i].yearsOfLife) {
@@ -69,8 +74,12 @@ angular.module('app', [])
 				youngest: youngest
 			}
 
-			oldest = {yearsOfLife: 0};
-			youngest = {yearsOfLife: 150};
+			oldest = {
+				yearsOfLife: 0
+			};
+			youngest = {
+				yearsOfLife: 150
+			};
 
 			for (var i = 0; i < $scope.ancestors.length; i++) {
 				if ($scope.ancestors[i].yearsOfLife && $scope.ancestors[i].genNum === $scope.genNum) {
@@ -87,14 +96,18 @@ angular.module('app', [])
 
 			if (oldest.yearsOfLife !== 0) {
 				$scope.dyk.gen.oldest = oldest;
-			}else {
-				$scope.dyk.gen.oldest = {yearsOfLife: 'Living'};
+			} else {
+				$scope.dyk.gen.oldest = {
+					yearsOfLife: 'Living'
+				};
 			}
 
 			if (youngest.yearsOfLife !== 150) {
 				$scope.dyk.gen.youngest = youngest;
-			}else {
-				$scope.dyk.gen.youngest = {yearsOfLife: 'Living'};
+			} else {
+				$scope.dyk.gen.youngest = {
+					yearsOfLife: 'Living'
+				};
 			}
 
 			var sum = 0;
