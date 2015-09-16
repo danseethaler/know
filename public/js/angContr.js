@@ -9,7 +9,7 @@ angular.module('app', [])
 			initFS.login(refresh)
 				.then(function (req, res) {
 
-					if (req === 'unauthorized') {
+					if (req.data === 'unauthorized') {
 						initFS.logout();
 					} else {
 
