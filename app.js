@@ -22,10 +22,9 @@ app.post('/in', function (req, res) {
 
 	// Create user_data directory if needed
 	try {
-	    fs.mkdirSync(path.join(__dirname, 'user_data'))
-	}
-	catch (e){
-	    if (e.code !== 'EEXIST') throw e;
+		fs.mkdirSync(path.join(__dirname, 'user_data'))
+	} catch (e) {
+		if (e.code !== 'EEXIST') throw e;
 	}
 
 	// Check if file exists
@@ -36,7 +35,7 @@ app.post('/in', function (req, res) {
 		if (err || req.body.refresh) {
 			if (!err) {
 				console.log('File exists - Requesting data anyway.');
-			}else {
+			} else {
 				console.log('File does not exist - requesting data');
 			}
 			getData();
@@ -66,6 +65,9 @@ app.post('/in', function (req, res) {
 			generations: genBack,
 			personDetails: true,
 			marriageDetails: false
+		}).catch(function (reason) {
+			console.log('getAncestry promise failed');
+			console.log(reason);
 		}).then(function (ancestors) {
 
 			console.log('Received ancestors from FS. Processing data...');
@@ -112,26 +114,29 @@ app.post('/in', function (req, res) {
 						res.send(user);
 					}
 				})
-			})
+			}).catch(function (reason) {
+				console.log('getAncestry promise failed');
+				console.log(reason);
+			});
 		});
 	}
 });
 
 // Normalize a port into a number, string, or false.
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+	var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+	if (isNaN(port)) {
+		// named pipe
+		return val;
+	}
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+	if (port >= 0) {
+		// port number
+		return port;
+	}
 
-  return false;
+	return false;
 }
 
 var port = normalizePort(process.env.PORT || '8888');
