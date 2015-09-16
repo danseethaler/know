@@ -1,3 +1,4 @@
+// Import delivered modules
 var express = require('express'),
 	bodyParser = require('body-parser'),
 	q = require('q'),
@@ -6,10 +7,11 @@ var express = require('express'),
 	path = require('path'),
 	famSearch = require('familysearch-javascript-sdk');
 
+// Import custom modules
 var ahnentafel = require('./custom_modules/ahnentafel');
 
+// Setup local variables
 var app = express();
-
 var genBack = 6;
 
 app.use(bodyParser.json());

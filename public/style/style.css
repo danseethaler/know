@@ -1,28 +1,48 @@
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none !important;
 }
+html, body {
+    margin: 0px;
+    padding: 0px;
+}
 body {
-    padding: 50px;
     font: 14px 'Open Sans', sans-serif;
+    /*background-color: #515151;*/
 }
 a {
     color: #00B7FF;
 }
-span{
+span {
     text-transform: capitalize;
     font-weight: bold;
+}
+/*footer {
+    color: white;
+    background-color: #515151;
+    height:100px;
+}*/
+
+div.buttons {
+    text-align:center;
+    margin-top: 30px;
+}
+.glyphicon {
+    font-size: .8em;
+    padding: 10px;
 }
 .capitalized {
     text-transform: capitalize;
 }
+
 /*Bootstrap*/
+
 .row {
     margin: 20px 0px;
 }
-.panel-success{
+.panel-success {
     border-color: #fff;
 }
-.panel-success .panel-heading{
+.panel-success .panel-heading {
     background-color: #5CB85C;
     color: #fff;
 }

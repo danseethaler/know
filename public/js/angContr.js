@@ -4,6 +4,8 @@ angular.module('app', [])
 		$scope.login = function (refresh) {
 			$scope.loggedin = true;
 
+			$scope.loading = true;
+
 			initFS.login(refresh)
 				.then(function (req, res) {
 					for (var prop in req.data) {
@@ -20,6 +22,8 @@ angular.module('app', [])
 					$scope.genNum = loadTimeline($scope.ancestors);
 
 					$scope.calcDyk();
+
+					$scope.loading = false;
 
 					// This compile function takes the controls div
 					// and compiles the appended pagination elements

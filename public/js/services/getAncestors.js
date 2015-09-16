@@ -15,7 +15,7 @@ angular.module('app')
 
         this.login = function(refresh){
 
-			if (docCookies.getItem('userId')) {
+			if (docCookies.getItem('userId') && fsClient.helpers.settings.accessToken) {
 				// Return the promise from the http request to the node server
 				return $http.post('/in', {
         			accessToken: fsClient.helpers.settings.accessToken,
